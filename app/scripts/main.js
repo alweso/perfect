@@ -1,104 +1,28 @@
  $(document).ready(function() {
                 // body...
-           
-(function () {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-    window.requestAnimationFrame = requestAnimationFrame;
-})();
 
-var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    width = $('#game').width(),
-    height = $('#game').height(),
-    player = {
-        x: 0,
-        y: height - 40,
-        width: 40,
-        height: 40,
-        speed: 6,
-        velX: 0,
-        velY: 0,
-        jumping: false,
-        grounded: false
-    },
-    enemy = {
-        x: 0,
-        y: height - 400,
-        width: 40,
-        height: 40,
-        speed: 0.2,
-        velX: 5,
-        velY: 0,
-        jumping: false,
-        grounded: false
-    },
+                (function () {
+                    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+                    window.requestAnimationFrame = requestAnimationFrame;
+                })();
+
+
+     var canvas = document.getElementById("canvas"),
+     ctx = canvas.getContext("2d"),
+     width = $('#game').width(),
+     height = $('#game').height(),
     keys = [],
     friction = 0.8,
     gravity = 0.3;
 
-var boxes = [];
-
-// dimensions
-// the floor box 
-boxes.push({
-    x: 0,
-    y: height - 20,
-    width: width,
-    height: 20
-});
-
-boxes.push({
-    x: 0,
-    y: -500,
-    width: 10,
-    height: height + 500
-});
-
-boxes.push({
-    x: width - 10,
-    y: -500,
-    width: 10,
-    height: height + 500
-});
-
-// the regular boxes 
-boxes.push({
-    x: 500,
-    y: height - 50,
-    width: 100,
-    height: 50
-});
-boxes.push({
-    x: 700,
-    y: height - 200,
-    width: 100,
-    height: 50
-});
-boxes.push({
-    x: 900,
-    y: height - 350,
-    width: 100,
-    height: 50
-});
-
-
-
-boxes.push({
-    x: 700,
-    y: height - 500,
-    width: 100,
-    height: 50
-});
-boxes.push({
-    x: 500,
-    y: height - 650,
-    width: 100,
-    height: 50
-});
-
 
 canvas.width = width;
 canvas.height = height;
+
+
+    makeEnemy(height, width);
+    makePlayer(height, width);  
+    makeBoxes(height, width);
 
 function update() {
     // check keys
@@ -126,9 +50,7 @@ function update() {
     player.velX *= friction;
     player.velY += gravity;
 
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "yellow";
-    ctx.beginPath();
+    drawBoxes(height, width, ctx);
     
     player.grounded = false;
     for (var i = 0; i < boxes.length; i++) {
@@ -137,12 +59,15 @@ function update() {
         var dir = colCheck(player, boxes[i]);
 
         if (dir === "l" || dir === "r") {
+            // alert('left or right');
             player.velX = 0;
             player.jumping = false;
         } else if (dir === "b") {
+            console.log('bottom of player touching');
             player.grounded = true;
             player.jumping = false;
         } else if (dir === "t") {
+            console.log('top of player touching');
             player.velY *= -1;
         }
 
@@ -158,26 +83,41 @@ function update() {
             enemy.velY *= -1;
         }
 
+        var enemyEncounter = colCheck(player, enemy);
+        if (enemyEncounter === "l" || enemyEncounter === "r" || enemyEncounter === "t") {
+            // alert('you have been killed!');
+            $('#kill-message').show();
+        } else if (enemyEncounter === 'b') {
+            player.grounded = true;
+            player.jumping = false;
+            enemy.height = 0;
+            enemy.width = 0;
+        }
+
     }
     
     if(player.grounded){
-         player.velY = 0;
-    }
-    
-    player.x += player.velX;
-    player.y += player.velY;
+     player.velY = 0;
+ }
 
-    ctx.fill();
-    ctx.fillStyle = "red";
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+ player.x += player.velX;
+ player.y += player.velY;
+
+ ctx.fill();
+ ctx.fillStyle = "red";
+ ctx.fillRect(player.x, player.y, player.width, player.height);
 
     // enemy
-   
-     
-            enemy.velX++;
-        
-enemy.x += enemy.velX;
+
+
+    enemy.velX++;
+
+    enemy.x += enemy.velX;
     enemy.y += enemy.velY;
+
+    if(enemy.grounded){
+        enemy.velY = 0;
+    }
 
     enemy.velX *= friction;
     enemy.velY += gravity;
@@ -191,7 +131,7 @@ enemy.x += enemy.velX;
 function colCheck(shapeA, shapeB) {
     // get the vectors to check against
     var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
-        vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+    vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
         // add the half widths and half heights of the objects
         hWidths = (shapeA.width / 2) + (shapeB.width / 2),
         hHeights = (shapeA.height / 2) + (shapeB.height / 2),
@@ -201,7 +141,7 @@ function colCheck(shapeA, shapeB) {
     if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
         // figures out on which side we are colliding (top, bottom, left, or right)
         var oX = hWidths - Math.abs(vX),
-            oY = hHeights - Math.abs(vY);
+        oY = hHeights - Math.abs(vY);
         if (oX >= oY) {
             if (vY > 0) {
                 colDir = "t";
@@ -235,4 +175,6 @@ document.body.addEventListener("keyup", function (e) {
 window.addEventListener("load", function () {
     update();
 });
- });
+
+
+});
