@@ -2,7 +2,8 @@
 
    
     var animationIsPaused = false;
-    var enemyHitSomething = false;
+    var enemyHitSomethingOnRight = false;
+    var enemyHitSomethingOnLeft = false;
     var enemy2HitSomething = false;
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
@@ -24,10 +25,10 @@
     canvas.width = width;
     canvas.height = height;
 
-    let enemy = new Enemy(0, height - 40, 40, 40, 0.2, 0, 0, false, false);
-    let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
+    let enemy = new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false);
+    // let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
 
-    let allEnemies = [enemy, enemy2];
+    let allEnemies = [enemy];
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
     // makePlayer(height, width);  
@@ -79,40 +80,46 @@
             console.log('top of player touching');
             player.velY *= -1;
         }
-
+        
         var dir2 = colCheck(enemy, boxes[i]);
 
-        if (dir2 === "r") {
-            enemy.velX = 0;
+        if (dir2 === "r" ) {
+            // enemy.velX = 0;
             // enemy.jumping = false;
             // if (player.velX > -player.speed) {
-                enemyHitSomething = true;
-                enemy.velX = -5;
+                enemyHitSomethingOnRight = true;
+                enemyHitSomethingOnLeft = false;
+                // enemy.velX = -1 * enemy.velX;
             // dir2 === null;
         // }
-        } else if (dir2 === "b") {
+        } 
+        else if (dir2 === "l") {
+            enemyHitSomethingOnLeft = true;
+            enemyHitSomethingOnRight = false;
+        }
+        else if (dir2 === "b") {
             enemy.grounded = true;
             enemy.jumping = false;
         } else if (dir2 === "t") {
             enemy.velY *= -1;
         }
 
-         var dir3 = colCheck(enemy2, boxes[i]);
+        //  var dir3 = colCheck(enemy2, boxes[i]);
 
-        if (dir3 === "r") {
-            enemy2.velX = 0;
-            // enemy.jumping = false;
-            // if (player.velX > -player.speed) {
-                enemy2HitSomething = true;
-                enemy2.velX = -5;
-            // dir2 === null;
+        // if (dir3 === "r") {
+        //     enemy2.velX = 0;
+        //     // enemy.jumping = false;
+        //     // if (player.velX > -player.speed) {
+        //         enemy2HitSomething = true;
+        //         enemy2.velX = -5;
+        //     // dir2 === null;
+        // // }
+        // } else if (dir3 === "b") {
+        //     enemy2.grounded = true;
+        //     enemy2.jumping = false;
+        // } else if (dir3 === "t") {
+        //     enemy2.velY *= -1;
         // }
-        } else if (dir3 === "b") {
-            enemy2.grounded = true;
-            enemy2.jumping = false;
-        } else if (dir3 === "t") {
-            enemy2.velY *= -1;
-        }
 
         player.encounterWithEnemy(allEnemies);
     }
@@ -130,8 +137,10 @@
 
     // enemy
 
-    if (!enemyHitSomething) {
-        enemy.velX++;
+    if (!enemyHitSomethingOnRight) {
+        enemy.velX = 5;
+    } else if (enemyHitSomethingOnRight) {
+        enemy.velX = -5;
     }
     
     enemy.x += enemy.velX;
@@ -149,22 +158,22 @@
 
     // enemy2
 
-    if (!enemy2HitSomething) {
-        enemy2.velX--;
-    }
+    // if (!enemy2HitSomething) {
+    //     enemy2.velX--;
+    // }
     
-    enemy2.x += enemy2.velX;
-    enemy2.y += enemy2.velY;
+    // enemy2.x += enemy2.velX;
+    // enemy2.y += enemy2.velY;
 
-    if(enemy2.grounded){
-        enemy2.velY = 0;
-    }
+    // if(enemy2.grounded){
+    //     enemy2.velY = 0;
+    // }
 
-    enemy2.velX *= friction;
-    enemy2.velY += gravity;
+    // enemy2.velX *= friction;
+    // enemy2.velY += gravity;
 
-    ctx.fillStyle = "blue";
-    ctx.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
 
     if(!animationIsPaused) {
         requestAnimationFrame(update);
