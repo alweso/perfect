@@ -1,4 +1,5 @@
 var enemyEncounter;
+var enemyKilled;
 class Player {
 	constructor(playerX, playerY, playerWidth, playerHeight, playerSpeed, playerVelX, playerVelY, playerJumping, playerGrounded, allEnemies, animationIsPaused) {
 		this.x = playerX;
@@ -30,6 +31,8 @@ class Player {
         	allEnemies[i].height = 0;
         	allEnemies[i].width = 0;
         	allEnemies[i].y = allEnemies[i].height + 3000000;
+        	// enemyKilled = new Event('enemyKilled');
+        	// window.dispatchEvent(enemyKilled);
         }
     };
 }

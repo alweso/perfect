@@ -1,17 +1,19 @@
  $(document).ready(function() {
 
-   
+     
     var animationIsPaused = false;
     var enemyHitSomethingOnRight = false;
     var enemyHitSomethingOnLeft = false;
+    var enemy2HitSomethingOnRight = false;
+    var enemy2HitSomethingOnLeft = false;  
     var enemy2HitSomething = false;
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
 
     var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
 
-                
-            
+    
+    
 
     var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
@@ -25,10 +27,10 @@
     canvas.width = width;
     canvas.height = height;
 
-    let enemy = new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false);
-    // let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
+    let enemy = new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false);
+    let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false);
 
-    let allEnemies = [enemy];
+    let allEnemies = [enemy, enemy2];
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
     // makePlayer(height, width);  
@@ -73,29 +75,23 @@
             player.velX = 0;
             player.jumping = false;
         } else if (dir === "b") {
-            console.log('bottom of player touching');
+            // console.log('bottom of player touching');
             player.grounded = true;
             player.jumping = false;
         } else if (dir === "t") {
-            console.log('top of player touching');
+            // console.log('top of player touching');
             player.velY *= -1;
         }
         
         var dir2 = colCheck(enemy, boxes[i]);
 
         if (dir2 === "r" ) {
-            // enemy.velX = 0;
-            // enemy.jumping = false;
-            // if (player.velX > -player.speed) {
-                enemyHitSomethingOnRight = true;
-                enemyHitSomethingOnLeft = false;
-                // enemy.velX = -1 * enemy.velX;
-            // dir2 === null;
-        // }
+            enemy.hitSomethingOnRight = true;
+            enemy.hitSomethingOnLeft = false;
         } 
         else if (dir2 === "l") {
-            enemyHitSomethingOnLeft = true;
-            enemyHitSomethingOnRight = false;
+            enemy.hitSomethingOnLeft = true;
+            enemy.hitSomethingOnRight = false;
         }
         else if (dir2 === "b") {
             enemy.grounded = true;
@@ -104,81 +100,46 @@
             enemy.velY *= -1;
         }
 
-        //  var dir3 = colCheck(enemy2, boxes[i]);
+        var dir3 = colCheck(enemy2, boxes[i]);
 
-        // if (dir3 === "r") {
-        //     enemy2.velX = 0;
-        //     // enemy.jumping = false;
-        //     // if (player.velX > -player.speed) {
-        //         enemy2HitSomething = true;
-        //         enemy2.velX = -5;
-        //     // dir2 === null;
-        // // }
-        // } else if (dir3 === "b") {
-        //     enemy2.grounded = true;
-        //     enemy2.jumping = false;
-        // } else if (dir3 === "t") {
-        //     enemy2.velY *= -1;
-        // }
+        if (dir3 === "r" ) {
+            enemy2.hitSomethingOnRight = true;
+            enemy2.hitSomethingOnLeft = false;
+        } 
+        else if (dir3 === "l") {
+            enemy2.hitSomethingOnLeft = true;
+            enemy2.hitSomethingOnRight = false;
+        }
+        else if (dir3 === "b") {
+            enemy2.grounded = true;
+            enemy2.jumping = false;
+        } else if (dir3 === "t") {
+            enemy2.velY *= -1;
+        }
 
         player.encounterWithEnemy(allEnemies);
     }
     
     if(player.grounded){
-     player.velY = 0;
- }
+       player.velY = 0;
+   }
 
- player.x += player.velX;
- player.y += player.velY;
+   player.x += player.velX;
+   player.y += player.velY;
 
- ctx.fill();
- ctx.fillStyle = "red";
- ctx.fillRect(player.x, player.y, player.width, player.height);
+   ctx.fill();
+   ctx.fillStyle = "red";
+   ctx.fillRect(player.x, player.y, player.width, player.height);
 
-    // enemy
+   ctx.fillStyle = "blue";
 
-    if (!enemyHitSomethingOnRight) {
-        enemy.velX = 5;
-    } else if (enemyHitSomethingOnRight) {
-        enemy.velX = -5;
-    }
-    
-    enemy.x += enemy.velX;
-    enemy.y += enemy.velY;
+   for (var i = 0; i < allEnemies.length; i++) {
+       allEnemies[i].changeDirection(friction, gravity, ctx);
+   }
+   if(!animationIsPaused) {
+    requestAnimationFrame(update);
+}
 
-    if(enemy.grounded){
-        enemy.velY = 0;
-    }
-
-    enemy.velX *= friction;
-    enemy.velY += gravity;
-
-    ctx.fillStyle = "blue";
-    ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-
-    // enemy2
-
-    // if (!enemy2HitSomething) {
-    //     enemy2.velX--;
-    // }
-    
-    // enemy2.x += enemy2.velX;
-    // enemy2.y += enemy2.velY;
-
-    // if(enemy2.grounded){
-    //     enemy2.velY = 0;
-    // }
-
-    // enemy2.velX *= friction;
-    // enemy2.velY += gravity;
-
-    // ctx.fillStyle = "blue";
-    // ctx.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
-
-    if(!animationIsPaused) {
-        requestAnimationFrame(update);
-    }
-    
 }
 
 document.body.addEventListener("keydown", function (e) {
@@ -193,6 +154,14 @@ document.body.addEventListener("keyup", function (e) {
 window.addEventListener("load", function () {
     update();
 });
+
+// window.addEventListener("enemyKilled", function () {
+//     let enemy3 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
+//     // alert('event fired');
+//     ctx.fillStyle = "blue";
+//     ctx.fillRect(enemy3.x, enemy3.y, enemy3.width, enemy3.height);
+// });
+
 
 
 });
