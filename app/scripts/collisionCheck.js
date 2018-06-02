@@ -1,7 +1,7 @@
-var colCheck = function(shapeA, shapeB) {
+function colCheck(shapeA, shapeB) {
     // get the vectors to check against
     var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
-        vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+    vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
         // add the half widths and half heights of the objects
         hWidths = (shapeA.width / 2) + (shapeB.width / 2),
         hHeights = (shapeA.height / 2) + (shapeB.height / 2),
@@ -11,7 +11,7 @@ var colCheck = function(shapeA, shapeB) {
     if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
         // figures out on which side we are colliding (top, bottom, left, or right)
         var oX = hWidths - Math.abs(vX),
-            oY = hHeights - Math.abs(vY);
+        oY = hHeights - Math.abs(vY);
         if (oX >= oY) {
             if (vY > 0) {
                 colDir = "t";
@@ -31,5 +31,4 @@ var colCheck = function(shapeA, shapeB) {
         }
     }
     return colDir;
-}(); //← This is called a immediately invoked function definition,   
-     // or IIFE
+}

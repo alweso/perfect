@@ -1,34 +1,39 @@
  $(document).ready(function() {
-                // body...
 
-                var animationIsPaused = false;
+   
+    var animationIsPaused = false;
+    var enemyHitSomething = false;
+    var enemy2HitSomething = false;
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
 
-                (function () {
-                    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-                    window.requestAnimationFrame = requestAnimationFrame;
-                })();
-               (function () {
-                    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
-                })(); 
+    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
 
-     var canvas = document.getElementById("canvas"),
-     ctx = canvas.getContext("2d"),
-     width = $('#game').width(),
-     height = $('#game').height(),
+                
+            
+
+    var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    width = $('#game').width(),
+    height = $('#game').height(),
     keys = [],
     friction = 0.8,
     gravity = 0.3;
 
 
-canvas.width = width;
-canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
+    let enemy = new Enemy(0, height - 40, 40, 40, 0.2, 0, 0, false, false);
+    let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
 
-    makeEnemy(height, width);
-    makePlayer(height, width);  
+    let allEnemies = [enemy, enemy2];
+
+    let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
+    // makePlayer(height, width);  
     makeBoxes(height, width);
 
-function update() {
+    function update() {
     // check keys
     if (keys[38] || keys[32]) {
         // up arrow or space
@@ -77,9 +82,14 @@ function update() {
 
         var dir2 = colCheck(enemy, boxes[i]);
 
-        if (dir2 === "l" || dir2 === "r") {
+        if (dir2 === "r") {
             enemy.velX = 0;
-            enemy.jumping = false;
+            // enemy.jumping = false;
+            // if (player.velX > -player.speed) {
+                enemyHitSomething = true;
+                enemy.velX = -5;
+            // dir2 === null;
+        // }
         } else if (dir2 === "b") {
             enemy.grounded = true;
             enemy.jumping = false;
@@ -87,19 +97,24 @@ function update() {
             enemy.velY *= -1;
         }
 
-        var enemyEncounter = colCheck(player, enemy);
-        if (enemyEncounter === "l" || enemyEncounter === "r" || enemyEncounter === "t") {
-            // alert('you have been killed!');
-            $('#kill-message').show();
-            animationIsPaused = true;
-            //cancelAnimationFrame();
-        } else if (enemyEncounter === 'b') {
-            player.grounded = true;
-            player.jumping = false;
-            enemy.height = 0;
-            enemy.width = 0;
+         var dir3 = colCheck(enemy2, boxes[i]);
+
+        if (dir3 === "r") {
+            enemy2.velX = 0;
+            // enemy.jumping = false;
+            // if (player.velX > -player.speed) {
+                enemy2HitSomething = true;
+                enemy2.velX = -5;
+            // dir2 === null;
+        // }
+        } else if (dir3 === "b") {
+            enemy2.grounded = true;
+            enemy2.jumping = false;
+        } else if (dir3 === "t") {
+            enemy2.velY *= -1;
         }
 
+        player.encounterWithEnemy(allEnemies);
     }
     
     if(player.grounded){
@@ -115,9 +130,10 @@ function update() {
 
     // enemy
 
-
-    enemy.velX++;
-
+    if (!enemyHitSomething) {
+        enemy.velX++;
+    }
+    
     enemy.x += enemy.velX;
     enemy.y += enemy.velY;
 
@@ -131,45 +147,29 @@ function update() {
     ctx.fillStyle = "blue";
     ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
 
+    // enemy2
+
+    if (!enemy2HitSomething) {
+        enemy2.velX--;
+    }
+    
+    enemy2.x += enemy2.velX;
+    enemy2.y += enemy2.velY;
+
+    if(enemy2.grounded){
+        enemy2.velY = 0;
+    }
+
+    enemy2.velX *= friction;
+    enemy2.velY += gravity;
+
+    ctx.fillStyle = "blue";
+    ctx.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
+
     if(!animationIsPaused) {
         requestAnimationFrame(update);
     }
     
-}
-
-function colCheck(shapeA, shapeB) {
-    // get the vectors to check against
-    var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
-    vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
-        // add the half widths and half heights of the objects
-        hWidths = (shapeA.width / 2) + (shapeB.width / 2),
-        hHeights = (shapeA.height / 2) + (shapeB.height / 2),
-        colDir = null;
-
-    // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
-    if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
-        // figures out on which side we are colliding (top, bottom, left, or right)
-        var oX = hWidths - Math.abs(vX),
-        oY = hHeights - Math.abs(vY);
-        if (oX >= oY) {
-            if (vY > 0) {
-                colDir = "t";
-                shapeA.y += oY;
-            } else {
-                colDir = "b";
-                shapeA.y -= oY;
-            }
-        } else {
-            if (vX > 0) {
-                colDir = "l";
-                shapeA.x += oX;
-            } else {
-                colDir = "r";
-                shapeA.x -= oX;
-            }
-        }
-    }
-    return colDir;
 }
 
 document.body.addEventListener("keydown", function (e) {
