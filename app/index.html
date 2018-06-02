@@ -18,7 +18,7 @@
     <!-- <link rel="stylesheet" href="fonts/font-awesome-4.6.3/css/font-awesome.min.css"> -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,300italic,600,600italic,700,700italic,800italic,800%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../dist/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../dist/style.css"> -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -39,6 +39,9 @@
     <script src="./scripts/main.js"></script>
 
         <script>
+            $(document).ready(function() {
+                // body...
+           
 (function () {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
@@ -49,7 +52,7 @@ var canvas = document.getElementById("canvas"),
     width = $('#game').width(),
     height = $('#game').height(),
     player = {
-        x: 300,
+        x: 0,
         y: height - 40,
         width: 40,
         height: 40,
@@ -61,7 +64,7 @@ var canvas = document.getElementById("canvas"),
     },
     enemy = {
         x: 0,
-        y: height - 40,
+        y: height - 400,
         width: 40,
         height: 40,
         speed: 6,
@@ -184,18 +187,6 @@ function update() {
             player.velY *= -1;
         }
 
-         var dir2 = colCheck(enemy, player);
-         // console.log(dir2);
-        if (dir2 === "l" || dir2 === "r") {
-            enemy.velX = 0;
-            enemy.jumping = false;
-        } else if (dir2 === "b") {
-            enemy.grounded = true;
-            enemy.jumping = false;
-        } else if (dir2 === "t") {
-            enemy.velY *= -1;
-        }
-
     }
     
     if(player.grounded){
@@ -208,13 +199,6 @@ function update() {
     ctx.fill();
     ctx.fillStyle = "red";
     ctx.fillRect(player.x, player.y, player.width, player.height);
-
-   enemy.x += enemy.velX;
-    enemy.y += enemy.velY;
-
-    ctx.fill();
-    ctx.fillStyle = "blue";
-    ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
 
     requestAnimationFrame(update);
 }
@@ -254,7 +238,6 @@ function colCheck(shapeA, shapeB) {
     return colDir;
 }
 
-
 document.body.addEventListener("keydown", function (e) {
     keys[e.keyCode] = true;
 });
@@ -267,6 +250,7 @@ document.body.addEventListener("keyup", function (e) {
 window.addEventListener("load", function () {
     update();
 });
+ });
     </script>
     <style type="text/css">
     body {position: relative;}
