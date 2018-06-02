@@ -1,11 +1,15 @@
  $(document).ready(function() {
                 // body...
 
+                var animationIsPaused = false;
+
                 (function () {
                     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                     window.requestAnimationFrame = requestAnimationFrame;
                 })();
-
+               (function () {
+                    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
+                })(); 
 
      var canvas = document.getElementById("canvas"),
      ctx = canvas.getContext("2d"),
@@ -87,6 +91,8 @@ function update() {
         if (enemyEncounter === "l" || enemyEncounter === "r" || enemyEncounter === "t") {
             // alert('you have been killed!');
             $('#kill-message').show();
+            animationIsPaused = true;
+            //cancelAnimationFrame();
         } else if (enemyEncounter === 'b') {
             player.grounded = true;
             player.jumping = false;
@@ -125,7 +131,10 @@ function update() {
     ctx.fillStyle = "blue";
     ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
 
-    requestAnimationFrame(update);
+    if(!animationIsPaused) {
+        requestAnimationFrame(update);
+    }
+    
 }
 
 function colCheck(shapeA, shapeB) {
