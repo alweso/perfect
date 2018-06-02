@@ -1,0 +1,35 @@
+{
+  "name": "perfect",
+  "version": "1.0.0",
+  "description": "dsf ",
+  "main": "app/scripts/main.js",
+  "directories": {
+    "test": "test"
+  },
+  "watch": {
+    "test": "{src,test}/*.js"
+  },
+  "scripts": {
+    "test": "test",
+    "scss": "node-sass app/styles/scss/ --output dist --watch --output-style compressed",
+    "watch": "npm run scss"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alweso/perfect.git"
+  },
+  "keywords": [
+    "perfect"
+  ],
+  "author": "Aleksandra Pascaru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alweso/perfect/issues"
+  },
+  "homepage": "https://github.com/alweso/perfect#readme",
+  "dependencies": {
+    "node-sass": "^4.9.0",
+    "npm-watch": "^0.3.0",
+    "scss-compile": "^0.1.7"
+  }
+}
