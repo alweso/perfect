@@ -57,13 +57,36 @@
                 }
             }
         },
+        this.checkIfEnemyHitWall = function(allWalls) {
+            var collisionWithWall;
+            for (var i = 0; i < allWalls.length; i++) {
+
+                collisionWithWall = colCheck(_this, allWalls[i]);
+
+                if (collisionWithWall === "r" ) {
+                    _this.hitSomethingOnRight = true;
+                    _this.hitSomethingOnLeft = false;
+                } 
+                else if (collisionWithWall === "l") {
+                    _this.hitSomethingOnLeft = true;
+                    _this.hitSomethingOnRight = false;
+                }
+                else if (collisionWithWall === "b") {
+                    _this.grounded = true;
+                    _this.jumping = false;
+                } else if (collisionWithWall === "t") {
+                    _this.velY *= -1;
+                }
+            }
+        },
     this.drawEnemy = function(friction, gravity, ctx) {
         ctx.fillStyle = "blue";
         _this.changeDirection(friction, gravity, ctx);
     },
-    this.init = function(allSteps, friction, gravity, ctx) {
+    this.init = function(allSteps, allWalls, friction, gravity, ctx) {
         _this.grounded = false; 
         _this.checkIfEnemyHitBox(allSteps);
+        _this.checkIfEnemyHitWall(allWalls);
         _this.drawEnemy(friction, gravity, ctx);
     };
 }

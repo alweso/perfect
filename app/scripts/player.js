@@ -24,6 +24,7 @@ class Player {
 	            // alert('you have been killed!');
 	            $('#kill-message').show();
 	            animationIsPaused = true;
+	            // cancelAnimationFrame();
 	            setTimeout(function(){
 	            	window.location.reload();
 	            }, 1000);
@@ -56,6 +57,29 @@ class Player {
 		            _this.grounded = true;
 		            _this.jumping = false;
 		        } else if (collisionWithBox === "t") {
+		            _this.velY *= -1;
+		        }
+			}
+
+			// this goes somewhere else, another player method
+			  if(_this.grounded){
+			       _this.velY = 0;
+			   }
+		},
+
+		this.checkIfPlayerHitWall = function(allWalls) {
+			var collisionWithWall;
+			for (var i = 0; i < allWalls.length; i++) {
+
+				collisionWithWall = colCheck(_this, allWalls[i]);
+
+		        if (collisionWithWall === "l" || collisionWithWall === "r") {
+		            _this.velX = 0;
+		            _this.jumping = false;
+		        } else if (collisionWithWall === "b") {
+		            _this.grounded = true;
+		            _this.jumping = false;
+		        } else if (collisionWithWall === "t") {
 		            _this.velY *= -1;
 		        }
 			}
@@ -99,8 +123,9 @@ class Player {
 			ctx.fillStyle = "red";
    			ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
 		},
-		this.init = function(gravity, friction, allSteps, allEnemies, ctx) {
+		this.init = function(gravity, friction, allSteps, allWalls, allEnemies, ctx) {
 			_this.movePlayer(gravity, friction);
+			_this.checkIfPlayerHitWall(allWalls);
 		    _this.checkIfPlayerHitBox(allSteps);
 		    _this.encounterWithEnemy(allEnemies);
 		    _this.drawPlayer(ctx);
