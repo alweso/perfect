@@ -46,6 +46,7 @@
     drawBoxes(height, width, ctx);
     
     player.grounded = false;
+    player.checkIfPlayerHitBox(allSteps);
     for (var i = 0; i < boxes.length; i++) {
         ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
         

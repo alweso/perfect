@@ -5,6 +5,7 @@ var keys = [];
 
 class Player {
 	constructor(playerX, playerY, playerWidth, playerHeight, playerSpeed, playerVelX, playerVelY, playerJumping, playerGrounded, allEnemies, animationIsPaused) {
+		var _this = this;
 		this.x = playerX;
 		this.y =  playerY,
 		this.width = playerWidth,
@@ -37,6 +38,23 @@ class Player {
 		        }
 	   		};
 		},
+		this.checkIfPlayerHitBox = function(allSteps) {
+			var collisionWithBox;
+			for (var i = 0; i < allSteps.length; i++) {
+				
+				collisionWithBox = colCheck(_this, allSteps[i]);
+
+		        if (collisionWithBox === "l" || collisionWithBox === "r") {
+		            _this.velX = 0;
+		            _this.jumping = false;
+		        } else if (collisionWithBox === "b") {
+		            _this.grounded = true;
+		            _this.jumping = false;
+		        } else if (collisionWithBox === "t") {
+		            _this.velY *= -1;
+		        }
+			}
+		}
 
 		this.movePlayer = function(gravity, friction) {
 			  if (keys[38] || keys[32]) {
