@@ -20,8 +20,9 @@
 
     let enemy = new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false);
     let enemy2 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false);
+    let enemy3 = new Enemy(width - 370, height - 370, 40, 40, 0.2, 0, 0, false, false, false, false);
 
-    let allEnemies = [enemy, enemy2];
+    let allEnemies = [enemy, enemy2, enemy3];
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
 
@@ -40,35 +41,21 @@
     let allSteps = [step1, step2, step3, step4, step5, step6, floor, leftWall, rightWall];
 
     // makePlayer(height, width);  
-    makeBoxes(height, width);
+    // makeBoxes(height, width);
 
     function update() {
-    // check keys
-    player.movePlayer(gravity, friction);
+    // clear the movement paths - without this you will have traces of previous movement 
+    ctx.clearRect(0, 0, width, height);
+   // ctx.fill();
 
-    drawBoxes(height, width, ctx);
-    
-    player.grounded = false;
-    player.checkIfPlayerHitBox(allSteps);
+   player.init(gravity, friction, allSteps, allEnemies, ctx);
 
     for (var i = 0; i < allEnemies.length; i++) {
+       allEnemies[i].grounded = false; 
        allEnemies[i].checkIfEnemyHitBox(allSteps);
    }
 
-    player.encounterWithEnemy(allEnemies);
     
-    if(player.grounded){
-       player.velY = 0;
-   }
-
-   player.x += player.velX;
-   player.y += player.velY;
-
-   // draw player 
-   ctx.fill();
-   ctx.fillStyle = "red";
-   ctx.fillRect(player.x, player.y, player.width, player.height);
-
    // draw enemies
 
    for (var i = 0; i < allEnemies.length; i++) {

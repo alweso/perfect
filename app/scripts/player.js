@@ -54,16 +54,21 @@ class Player {
 		            _this.velY *= -1;
 		        }
 			}
+
+			// this goes somewhere else, another player method
+			  if(_this.grounded){
+			       _this.velY = 0;
+			   }
 		},
 
 		this.movePlayer = function(gravity, friction) {
-			  if (keys[38] || keys[32]) {
-        // up arrow or space
-        if (!this.jumping && this.grounded) {
-            this.jumping = true;
-            this.grounded = false;
-            this.velY = -this.speed * 2;
-        }
+		if (keys[38] || keys[32]) {
+	        // up arrow or space
+	        if (!this.jumping && this.grounded) {
+	            this.jumping = true;
+	            this.grounded = false;
+	            this.velY = -this.speed * 2;
+	        }
 	    }
 	    if (keys[39]) {
 	        // right arrow
@@ -80,6 +85,20 @@ class Player {
 
 	    this.velX *= friction;
 	    this.velY += gravity;
+	    this.grounded = false;
+
+	    _this.x += _this.velX;
+   		_this.y += _this.velY;
+		},
+		this.drawPlayer = function(ctx) {
+			ctx.fillStyle = "red";
+   			ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
+		},
+		this.init = function(gravity, friction, allSteps, allEnemies, ctx) {
+			_this.movePlayer(gravity, friction);
+		    _this.checkIfPlayerHitBox(allSteps);
+		    _this.encounterWithEnemy(allEnemies);
+		    _this.drawPlayer(ctx);
 		}
 }
 }
