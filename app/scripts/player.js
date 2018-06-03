@@ -1,5 +1,8 @@
 var enemyEncounter;
 var enemyKilled;
+var keys = [];
+
+
 class Player {
 	constructor(playerX, playerY, playerWidth, playerHeight, playerSpeed, playerVelX, playerVelY, playerJumping, playerGrounded, allEnemies, animationIsPaused) {
 		this.x = playerX;
@@ -35,6 +38,33 @@ class Player {
         	// window.dispatchEvent(enemyKilled);
         }
     };
+},
+
+		this.movePlayer = function(gravity, friction) {
+			  if (keys[38] || keys[32]) {
+        // up arrow or space
+        if (!this.jumping && this.grounded) {
+            this.jumping = true;
+            this.grounded = false;
+            this.velY = -this.speed * 2;
+        }
+	    }
+	    if (keys[39]) {
+	        // right arrow
+	        if (this.velX < this.speed) {
+	            this.velX++;
+	        }
+	    }
+	    if (keys[37]) {
+	        // left arrow
+	        if (this.velX > -this.speed) {
+	            this.velX--;
+	        }
+	    }
+
+	    this.velX *= friction;
+	    this.velY += gravity;
+		}
 }
 }
-}
+

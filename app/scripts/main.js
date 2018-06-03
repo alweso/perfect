@@ -19,7 +19,6 @@
     ctx = canvas.getContext("2d"),
     width = $('#game').width(),
     height = $('#game').height(),
-    keys = [],
     friction = 0.8,
     gravity = 0.3;
 
@@ -38,29 +37,7 @@
 
     function update() {
     // check keys
-    if (keys[38] || keys[32]) {
-        // up arrow or space
-        if (!player.jumping && player.grounded) {
-            player.jumping = true;
-            player.grounded = false;
-            player.velY = -player.speed * 2;
-        }
-    }
-    if (keys[39]) {
-        // right arrow
-        if (player.velX < player.speed) {
-            player.velX++;
-        }
-    }
-    if (keys[37]) {
-        // left arrow
-        if (player.velX > -player.speed) {
-            player.velX--;
-        }
-    }
-
-    player.velX *= friction;
-    player.velY += gravity;
+    player.movePlayer(gravity, friction);
 
     drawBoxes(height, width, ctx);
     
@@ -143,13 +120,14 @@
 }
 
 document.body.addEventListener("keydown", function (e) {
+    console.log(e);
     keys[e.keyCode] = true;
 });
 
 document.body.addEventListener("keyup", function (e) {
+    console.log(e);
     keys[e.keyCode] = false;
 });
-
 
 window.addEventListener("load", function () {
     update();
