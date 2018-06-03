@@ -21,12 +21,12 @@
 
     let allEnemies = [];
     allEnemies.push(
-            new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false),
-            new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false),
-            new Enemy(width - 370, height - 370, 40, 40, 0.2, 0, 0, false, false, false, false)
+            new Enemy(10, height - 40, 40, 40, 4),
+            new Enemy(width - 100, height - 40, 40, 40, 4),
+            new Enemy(width - 370, height - 370, 40, 40, 7)
         );
 
-    let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
+    let player = new Player(400, height - 40, 40, 40, 6, false, false, allEnemies, animationIsPaused);
 
     let allSteps = [];
 
@@ -39,12 +39,12 @@
     allWalls.push(floor, leftWall, rightWall);
 
     allSteps.push(
-        new Step(400, height -200, 100, 50, gravity), 
-        new Step(800, height -50, 100, 50, gravity),
-        new Step(700, height -200, 100, 50, gravity),
-        new Step(900, height -350, 100, 50, gravity),
-        new Step(700, height -500, 100, 50, gravity),
-        new Step(500, height -650, 100, 50, gravity)
+        new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx), 
+        new Step(800, height -50, 100, 50, 0.5, gravity, friction, ctx),
+        new Step(700, height -200, 100, 50, 0.5, gravity, friction, ctx),
+        new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx),
+        new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx),
+        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx)
         );
 
 

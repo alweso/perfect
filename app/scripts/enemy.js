@@ -1,5 +1,5 @@
  class Enemy {
-  constructor(enemyX, enemyY, enemyWidth, enemyHeight, enemySpeed, enemyVelX, enemyVelY, enemyJumping, enemyGrounded, enemyHitSomethingOnRight, enemyHitSomethingOnLeft) {
+  constructor(enemyX, enemyY, enemyWidth, enemyHeight, enemySpeed) {
     var _this = this;
     var collision;
     this.x = enemyX;
@@ -7,19 +7,20 @@
     this.width = enemyWidth,
     this.height = enemyHeight,
     this.speed = enemySpeed,
-    this.velX = enemyVelX,
-    this.velY = enemyVelY,
-    this.jumping = enemyJumping,
-    this.grounded = enemyGrounded,
+    this.velX = 0,
+    this.velY = 0,
+    this.jumping = false,
+    this.grounded = false,
     this.encounterWithPlayer = false,
-    this.hitSomethingOnRight = enemyHitSomethingOnRight,
-    this.hitSomethingOnLeft = enemyHitSomethingOnLeft,
+    this.hitSomethingOnRight = false,
+    this.hitSomethingOnLeft = false,
     this.changeDirection = function(friction, gravity, ctx) {
-
+// console.log(_this.speed);
+        // console.log(_this.velX);
         if (!_this.hitSomethingOnRight) {
-            _this.velX = 5;
+            _this.velX = _this.speed;
         } else if (_this.hitSomethingOnRight) {
-            _this.velX = -5;
+            _this.velX = - _this.speed;
         }
 
         _this.x += _this.velX;
