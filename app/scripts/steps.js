@@ -12,6 +12,14 @@
         ctx.fillStyle = "orange";
         ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
     },
+    // this.moveStep = function() {
+    //      // this.velX *= friction;
+    //     this.velY += gravity;
+    //     this.grounded = false;
+
+    //     // _this.x += _this.velX;
+    //     _this.y += _this.velY;
+    // },
     this.init = function(ctx) {
        _this.drawStep(ctx);
     }

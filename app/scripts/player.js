@@ -35,6 +35,11 @@ class Player {
 		        	allEnemies[i].height = 0;
 		        	allEnemies[i].width = 0;
 		        	allEnemies[i].y = allEnemies[i].height + 3000000;
+
+		        	var enemyKilled = new Event('enemyKilled');
+
+					// Dispatch the event.
+					window.dispatchEvent(enemyKilled);
 		        }
 	   		};
 		},
