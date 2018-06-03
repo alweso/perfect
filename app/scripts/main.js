@@ -30,17 +30,21 @@
 
     let allSteps = [];
 
-    let floor = new Step(0, height -20, width, 20);
-    let leftWall = new Step(0, -500, 10, height + 500);
-    let rightWall = new Step(width - 10, -500, 10, height + 500); 
+    let allWalls = [];
 
-    allSteps.push(floor, leftWall, rightWall, 
-        new Step(400, height -200, 100, 50), 
-        new Step(800, height -50, 100, 50),
-        new Step(700, height -200, 100, 50),
-        new Step(900, height -350, 100, 50),
-        new Step(700, height -500, 100, 50),
-        new Step(500, height -650, 100, 50)
+    let floor = new Wall(0, height -20, width, 20);
+    let leftWall = new Wall(0, -500, 10, height + 500);
+    let rightWall = new Wall(width - 10, -500, 10, height + 500); 
+
+    allWalls.push(floor, leftWall, rightWall);
+
+    allSteps.push(
+        new Step(400, height -200, 100, 50, gravity), 
+        new Step(800, height -50, 100, 50, gravity),
+        new Step(700, height -200, 100, 50, gravity),
+        new Step(900, height -350, 100, 50, gravity),
+        new Step(700, height -500, 100, 50, gravity),
+        new Step(500, height -650, 100, 50, gravity)
         );
 
 
@@ -54,11 +58,15 @@
 
 
    // initialize everything 
-   player.init(gravity, friction, allSteps, allEnemies, ctx);
+   player.init(gravity, friction, allSteps, allWalls, allEnemies, ctx);
 
    for (var i = 0; i < allEnemies.length; i++) {
-     allEnemies[i].init(allSteps, friction, gravity, ctx);
+     allEnemies[i].init(allSteps, allWalls, friction, gravity, ctx);
  }
+
+  for (var i = 0; i < allWalls.length; i++) {
+    allWalls[i].init(ctx);
+}
  for (var i = 0; i < allSteps.length; i++) {
     allSteps[i].init(ctx);
 }

@@ -1,15 +1,15 @@
- class Step {
-  constructor(stepX, stepY, stepWidth, stepHeight, stepSpeed, stepVelX, stepVelY) {
+ class Wall {
+  constructor(wallX, wallY, wallWidth, wallHeight, wallSpeed, wallVelX, wallVelY) {
     var _this = this;
-    this.x = stepX;
-    this.y =  stepY,
-    this.width = stepWidth,
-    this.height = stepHeight,
-    this.speed = stepSpeed,
-    this.velX = stepVelX,
-    this.velY = stepVelY,
+    this.x = wallX;
+    this.y =  wallY,
+    this.width = wallWidth,
+    this.height = wallHeight,
+    this.speed = wallSpeed,
+    this.velX = wallVelX,
+    this.velY = wallVelY,
     this.drawStep = function(ctx) {
-        ctx.fillStyle = "orange";
+        ctx.fillStyle = "brown";
         ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
     },
     this.moveStep = function() {
