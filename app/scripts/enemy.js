@@ -60,6 +60,11 @@
     this.drawEnemy = function(friction, gravity, ctx) {
         ctx.fillStyle = "blue";
         _this.changeDirection(friction, gravity, ctx);
-    }
+    },
+    this.init = function(allSteps, friction, gravity, ctx) {
+        _this.grounded = false; 
+        _this.checkIfEnemyHitBox(allSteps);
+        _this.drawEnemy(friction, gravity, ctx);
+    };
 }
 }

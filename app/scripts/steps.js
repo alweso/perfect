@@ -12,8 +12,8 @@
         ctx.fillStyle = "orange";
         ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
     },
-    this.collided = function(allEnemies) {
-       
+    this.init = function(ctx) {
+       _this.drawStep(ctx);
     }
   }
 }
