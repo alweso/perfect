@@ -32,6 +32,10 @@
     let allEnemies = [enemy, enemy2];
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
+
+    let step1 = new Step(400, height -200, 100, 50, 0, 0);
+    let allSteps = [step1];
+
     // makePlayer(height, width);  
     makeBoxes(height, width);
 
@@ -104,42 +108,40 @@
    player.x += player.velX;
    player.y += player.velY;
 
+   // draw player 
    ctx.fill();
    ctx.fillStyle = "red";
    ctx.fillRect(player.x, player.y, player.width, player.height);
 
-   ctx.fillStyle = "blue";
+   // draw enemies
 
    for (var i = 0; i < allEnemies.length; i++) {
-       allEnemies[i].changeDirection(friction, gravity, ctx);
+       allEnemies[i].drawEnemy(friction, gravity, ctx);
    }
+
+   //draw steps 
+
+   for (var i = 0; i < allSteps.length; i++) {
+        allSteps[i].drawStep(ctx);
+   }
+
    if(!animationIsPaused) {
     requestAnimationFrame(update);
 }
-
 }
 
 document.body.addEventListener("keydown", function (e) {
-    console.log(e);
+    // console.log(e);
     keys[e.keyCode] = true;
 });
 
 document.body.addEventListener("keyup", function (e) {
-    console.log(e);
+    // console.log(e);
     keys[e.keyCode] = false;
 });
 
 window.addEventListener("load", function () {
     update();
 });
-
-// window.addEventListener("enemyKilled", function () {
-//     let enemy3 = new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false);
-//     // alert('event fired');
-//     ctx.fillStyle = "blue";
-//     ctx.fillRect(enemy3.x, enemy3.y, enemy3.width, enemy3.height);
-// });
-
-
 
 });

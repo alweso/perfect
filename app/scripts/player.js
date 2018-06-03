@@ -20,25 +20,23 @@ class Player {
 				enemyEncounter = colCheck(this, allEnemies[i]);
 
 				if (enemyEncounter === "l" || enemyEncounter === "r" || enemyEncounter === "t") {
-            // alert('you have been killed!');
-            $('#kill-message').show();
-            animationIsPaused = true;
-            setTimeout(function(){
-            	window.location.reload();
-            }, 1000);
-            
-            //cancelAnimationFrame();
-        } else if (enemyEncounter === 'b') {
-        	this.grounded = true;
-        	this.jumping = false;
-        	allEnemies[i].height = 0;
-        	allEnemies[i].width = 0;
-        	allEnemies[i].y = allEnemies[i].height + 3000000;
-        	// enemyKilled = new Event('enemyKilled');
-        	// window.dispatchEvent(enemyKilled);
-        }
-    };
-},
+	            // alert('you have been killed!');
+	            $('#kill-message').show();
+	            animationIsPaused = true;
+	            setTimeout(function(){
+	            	window.location.reload();
+	            }, 1000);
+	            
+	            //cancelAnimationFrame();
+		        } else if (enemyEncounter === 'b') {
+		        	this.grounded = true;
+		        	this.jumping = false;
+		        	allEnemies[i].height = 0;
+		        	allEnemies[i].width = 0;
+		        	allEnemies[i].y = allEnemies[i].height + 3000000;
+		        }
+	   		};
+		},
 
 		this.movePlayer = function(gravity, friction) {
 			  if (keys[38] || keys[32]) {

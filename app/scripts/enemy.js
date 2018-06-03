@@ -34,6 +34,10 @@
 
 
         ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
+    },
+    this.drawEnemy = function(friction, gravity, ctx) {
+        ctx.fillStyle = "blue";
+        _this.changeDirection(friction, gravity, ctx);
     }
 }
 }
