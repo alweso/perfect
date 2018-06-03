@@ -1,5 +1,6 @@
-function colCheck(shapeA, shapeB) {
+function colCheck(shapeA, shapeB, goesThroughWalls) {
     // get the vectors to check against
+    var goesThroughWalls = goesThroughWalls;
     var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
     vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
         // add the half widths and half heights of the objects
@@ -15,20 +16,33 @@ function colCheck(shapeA, shapeB) {
         if (oX >= oY) {
             if (vY > 0) {
                 colDir = "t";
-                shapeA.y += oY;
+                if(!goesThroughWalls) {
+                    // console.log(goesThroughWalls);
+                   shapeA.y += oY; 
+                }
+                
             } else {
                 colDir = "b";
+
+                if(!goesThroughWalls) {
                 shapeA.y -= oY;
+            } 
             }
         } else {
             if (vX > 0) {
                 colDir = "l";
-                shapeA.x += oX;
+                if(!goesThroughWalls) {
+                    // console.log(goesThroughWalls);
+                    shapeA.x += oX;
+                }
             } else {
                 colDir = "r";
-                shapeA.x -= oX;
+                if(!goesThroughWalls) {
+                    // console.log(goesThroughWalls);
+                    shapeA.x -= oX;
+                }
             }
-        }
     }
+        }
     return colDir;
 }

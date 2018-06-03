@@ -39,15 +39,25 @@
     allWalls.push(floor, leftWall, rightWall);
 
     allSteps.push(
-        new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx), 
-        new Step(800, height -50, 100, 50, 0.5, gravity, friction, ctx),
-        new Step(700, height -200, 100, 50, 0.5, gravity, friction, ctx),
-        new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx),
-        new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx),
-        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx)
+        new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+        new Step(800, height -50, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -200, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx, floor)
         );
 
-
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    setInterval(function(){
+        allSteps.push(
+            new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor),
+            new Step(getRandomArbitrary(width - width, width), 0, 100, 50, 0.5, gravity, friction, ctx, floor),
+            new Step(getRandomArbitrary(width - width, width), 0, 160, 50, 0.5, gravity, friction, ctx, floor),
+            new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor)
+        );
+    }, 3000);
 
     // let allSteps = [step1, step2, step3, step4, step5, step6, floor, leftWall, rightWall];
 
@@ -93,12 +103,10 @@ window.addEventListener("load", function () {
 
 // Listen for the event.
 window.addEventListener('enemyKilled', function (e) { 
-    function getRandomArbitrary(min, max) {
-        return Math.random() * (max - min) + min;
-    }
+
     console.log('enemyKilled');
      allEnemies.push(
-            new Enemy(width - getRandomArbitrary(width - width, width), height - 370, 40, 40, 0.2, 0, 0, false, false, false, false)
+            new Enemy(width - getRandomArbitrary(width - width, width), height - 370, 40, 40, 7)
         );
  }, false);
 
