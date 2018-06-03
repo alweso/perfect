@@ -24,7 +24,7 @@
             new Enemy(10, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false),
             new Enemy(width - 100, height - 40, 40, 40, 0.2, 0, 0, false, false, false, false),
             new Enemy(width - 370, height - 370, 40, 40, 0.2, 0, 0, false, false, false, false)
-        )
+        );
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
 
@@ -81,5 +81,18 @@ document.body.addEventListener("keyup", function (e) {
 window.addEventListener("load", function () {
     update();
 });
+
+
+// Listen for the event.
+window.addEventListener('enemyKilled', function (e) { 
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    console.log('enemyKilled');
+     allEnemies.push(
+            new Enemy(width - getRandomArbitrary(width - width, width), height - 370, 40, 40, 0.2, 0, 0, false, false, false, false)
+        );
+ }, false);
+
 
 });
