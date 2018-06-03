@@ -2,18 +2,10 @@
 
      
     var animationIsPaused = false;
-    var enemyHitSomethingOnRight = false;
-    var enemyHitSomethingOnLeft = false;
-    var enemy2HitSomethingOnRight = false;
-    var enemy2HitSomethingOnLeft = false;  
-    var enemy2HitSomething = false;
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
 
     var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
-
-    
-    
 
     var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
@@ -33,9 +25,19 @@
 
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
 
-    let step1 = new Step(400, height -200, 100, 50, 0, 0);
-    let step2 = new Step(800, height -50, 100, 50, 0, 0);
-    let allSteps = [step1, step2];
+    let step1 = new Step(400, height -200, 100, 50);
+    let step2 = new Step(800, height -50, 100, 50);
+
+    let step3 = new Step(700, height -200, 100, 50);
+    let step4 = new Step(900, height -350, 100, 50);
+    let step5 = new Step(700, height -500, 100, 50);
+    let step6 = new Step(500, height -650, 100, 50);
+
+    let floor = new Step(0, height -20, width, 20);
+    let leftWall = new Step(0, -500, 10, height + 500);
+    let rightWall = new Step(width - 10, -500, 10, height + 500); 
+
+    let allSteps = [step1, step2, step3, step4, step5, step6, floor, leftWall, rightWall];
 
     // makePlayer(height, width);  
     makeBoxes(height, width);
@@ -53,61 +55,7 @@
        allEnemies[i].checkIfEnemyHitBox(allSteps);
    }
 
-
-    for (var i = 0; i < boxes.length; i++) {
-        ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
-        
-        var dir = colCheck(player, boxes[i]);
-
-        if (dir === "l" || dir === "r") {
-            // alert('left or right');
-            player.velX = 0;
-            player.jumping = false;
-        } else if (dir === "b") {
-            // console.log('bottom of player touching');
-            player.grounded = true;
-            player.jumping = false;
-        } else if (dir === "t") {
-            // console.log('top of player touching');
-            player.velY *= -1;
-        }
-        
-        var dir2 = colCheck(enemy, boxes[i]);
-
-        if (dir2 === "r" ) {
-            enemy.hitSomethingOnRight = true;
-            enemy.hitSomethingOnLeft = false;
-        } 
-        else if (dir2 === "l") {
-            enemy.hitSomethingOnLeft = true;
-            enemy.hitSomethingOnRight = false;
-        }
-        else if (dir2 === "b") {
-            enemy.grounded = true;
-            enemy.jumping = false;
-        } else if (dir2 === "t") {
-            enemy.velY *= -1;
-        }
-
-        var dir3 = colCheck(enemy2, boxes[i]);
-
-        if (dir3 === "r" ) {
-            enemy2.hitSomethingOnRight = true;
-            enemy2.hitSomethingOnLeft = false;
-        } 
-        else if (dir3 === "l") {
-            enemy2.hitSomethingOnLeft = true;
-            enemy2.hitSomethingOnRight = false;
-        }
-        else if (dir3 === "b") {
-            enemy2.grounded = true;
-            enemy2.jumping = false;
-        } else if (dir3 === "t") {
-            enemy2.velY *= -1;
-        }
-
-        player.encounterWithEnemy(allEnemies);
-    }
+    player.encounterWithEnemy(allEnemies);
     
     if(player.grounded){
        player.velY = 0;
