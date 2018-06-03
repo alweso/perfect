@@ -35,6 +35,28 @@
 
         ctx.fillRect(_this.x, _this.y, _this.width, _this.height);
     },
+    this.checkIfEnemyHitBox = function(allSteps) {
+            var collisionWithBox;
+            for (var i = 0; i < allSteps.length; i++) {
+
+                collisionWithBox = colCheck(_this, allSteps[i]);
+
+                if (collisionWithBox === "r" ) {
+                    _this.hitSomethingOnRight = true;
+                    _this.hitSomethingOnLeft = false;
+                } 
+                else if (collisionWithBox === "l") {
+                    _this.hitSomethingOnLeft = true;
+                    _this.hitSomethingOnRight = false;
+                }
+                else if (collisionWithBox === "b") {
+                    _this.grounded = true;
+                    _this.jumping = false;
+                } else if (collisionWithBox === "t") {
+                    _this.velY *= -1;
+                }
+            }
+        },
     this.drawEnemy = function(friction, gravity, ctx) {
         ctx.fillStyle = "blue";
         _this.changeDirection(friction, gravity, ctx);

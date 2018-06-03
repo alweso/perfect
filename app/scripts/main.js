@@ -34,7 +34,8 @@
     let player = new Player(400, height - 40, 40, 40, 6, 5, 0, false, false, animationIsPaused);
 
     let step1 = new Step(400, height -200, 100, 50, 0, 0);
-    let allSteps = [step1];
+    let step2 = new Step(800, height -50, 100, 50, 0, 0);
+    let allSteps = [step1, step2];
 
     // makePlayer(height, width);  
     makeBoxes(height, width);
@@ -47,6 +48,12 @@
     
     player.grounded = false;
     player.checkIfPlayerHitBox(allSteps);
+
+    for (var i = 0; i < allEnemies.length; i++) {
+       allEnemies[i].checkIfEnemyHitBox(allSteps);
+   }
+
+
     for (var i = 0; i < boxes.length; i++) {
         ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
         

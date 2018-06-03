@@ -41,7 +41,7 @@ class Player {
 		this.checkIfPlayerHitBox = function(allSteps) {
 			var collisionWithBox;
 			for (var i = 0; i < allSteps.length; i++) {
-				
+
 				collisionWithBox = colCheck(_this, allSteps[i]);
 
 		        if (collisionWithBox === "l" || collisionWithBox === "r") {
@@ -54,7 +54,7 @@ class Player {
 		            _this.velY *= -1;
 		        }
 			}
-		}
+		},
 
 		this.movePlayer = function(gravity, friction) {
 			  if (keys[38] || keys[32]) {
