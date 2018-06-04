@@ -38,26 +38,83 @@
 
     allWalls.push(floor, leftWall, rightWall);
 
-    allSteps.push(
+       allSteps.push(
         new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
         new Step(800, height -50, 100, 50, 0.5, gravity, friction, ctx, floor),
         new Step(700, height -200, 100, 50, 0.5, gravity, friction, ctx, floor),
         new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx, floor),
         new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx, floor),
-        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx, floor)
+        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -800, 400, 50, 0.5, gravity, friction, ctx, floor),
+
+        // new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+        new Step(300, height -50, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -200, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -800, 400, 50, 0.5, gravity, friction, ctx, floor),
+        
+         // new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+        new Step(300, height -50 - 800, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -200- 800, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(900, height -350- 800, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -500- 800, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -650- 800, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -800- 800, 400, 50, 0.5, gravity, friction, ctx, floor),
+
+         // new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+        new Step(300, height -50 - 1600, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -200- 1600, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(900, height -350- 1600, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -500- 1600, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(500, height -650- 1600, 100, 50, 0.5, gravity, friction, ctx, floor),
+        new Step(700, height -800- 1600, 400, 50, 0.5, gravity, friction, ctx, floor),
+
+
         );
+
+
+    // let setOfSteps = [
+    //     new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+    //     new Step(800, height -50, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(700, height -200, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(900, height -350, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(700, height -500, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(500, height -650, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(700, height -800, 400, 50, 0.5, gravity, friction, ctx, floor)
+    // ]
+    // var i;
+    // var startValue =0;
+    // let twoHundredMore = 0;
+    // for (i=0;i<10;i++) {
+    //     allSteps.push(
+    //     // new Step(400, height -200, 100, 50, 0.5, gravity, friction, ctx, floor), 
+    //     new Step(100, height -50 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(300, height -200 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(500, height -350 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(700, height -500 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(900, height -650 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //     new Step(1100, height -800 - startValue, 100, 50, 0.5, gravity, friction, ctx, floor)
+    //         );
+    //       startValue = startValue + 150;
+    //       // twoHundredMore = twoHundredMore + 200;
+    // };
+    // allSteps.push(
+    //         setOfSteps
+    //     );
 
     function getRandomArbitrary(min, max) {
         return Math.random() * (max - min) + min;
     }
-    setInterval(function(){
-        allSteps.push(
-            new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor),
-            new Step(getRandomArbitrary(width - width, width), 0, 100, 50, 0.5, gravity, friction, ctx, floor),
-            new Step(getRandomArbitrary(width - width, width), 0, 160, 50, 0.5, gravity, friction, ctx, floor),
-            new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor)
-        );
-    }, 3000);
+    // setInterval(function(){
+    //     allSteps.push(
+    //         new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor),
+    //         new Step(getRandomArbitrary(width - width, width), 0, 100, 50, 0.5, gravity, friction, ctx, floor),
+    //         new Step(getRandomArbitrary(width - width, width), 0, 160, 50, 0.5, gravity, friction, ctx, floor),
+    //         new Step(getRandomArbitrary(width - width, width), 0, 200, 50, 0.5, gravity, friction, ctx, floor)
+    //     );
+    // }, 3000);
 
     // let allSteps = [step1, step2, step3, step4, step5, step6, floor, leftWall, rightWall];
 
